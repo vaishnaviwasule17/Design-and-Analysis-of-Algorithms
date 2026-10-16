@@ -1,0 +1,47 @@
+Write a program to implement the 0/1 Knapsack Problem. Given N items, each having a value and a weight, and a knapsack with capacity W determine the maximum total value that can be obtained by selecting a subset of the items such that the total weight does not exceed W
+. An item can either be included completely or excluded completely from the knapsack. Fractional selection of items is not allowed.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int N, W;
+
+    scanf("%d", &N);
+
+    int *value = (int *)malloc(N * sizeof(int));
+    int *weight = (int *)malloc(N * sizeof(int));
+
+    for (int i = 0; i < N; i++) {
+        scanf("%d", &value[i]);
+    }
+
+    for (int i = 0; i < N; i++) {
+        scanf("%d", &weight[i]);
+    }
+
+    scanf("%d", &W);
+
+    int *dp = (int *)calloc(W + 1, sizeof(int));
+
+    for (int i = 0; i < N; i++) {
+
+        for (int w = W; w >= weight[i]; w--) {
+            int include = dp[w - weight[i]] + value[i];
+
+            if (include > dp[w]) {
+                dp[w] = include;
+            }
+        }
+    }
+
+    printf("%d\n", dp[W]);
+
+    free(value);
+    free(weight);
+    free(dp);
+
+    return 0;
+}
+
+
